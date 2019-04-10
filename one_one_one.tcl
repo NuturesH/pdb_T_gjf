@@ -9,5 +9,5 @@ foreach i $residues {
     set resname2 [lsort -unique [[atomselect top "residue $i"] get resname]]
     echo $resname2
     mkdir $resname1$j\_$resname2$i
-    $pros writepdb $resname1$j\_$resname2$i\/$resname1$j\_$resname2$i
+    $pros writepdb $resname1$j\_$resname2$i\/$resname1$j\_$resname2$i.pdv
 }
