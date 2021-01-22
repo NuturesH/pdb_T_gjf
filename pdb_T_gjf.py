@@ -1,9 +1,10 @@
 #-*-coding:utf-8-*-
+# lasted edited by ys_song, 2021-1-22
 class PDB_T_GJF:
     #初始化数据
     def __init__(self, filename):
         self.filename = filename
-        print filename
+        #print(filename)
     #设定坐标转换函数
     def PDB_Coord(self):
         import pandas as pd
@@ -26,14 +27,15 @@ class PDB_T_GJF:
         chk_fname = filename.replace('pdb.swap', '').replace('/', '\/') #chk 名称，后期shell脚本需要调用
         #pandas 格式化输出浮点数
         pf = pf.round(3)
-        #print pf
-        pf.to_csv(coord_fname, sep='\t', index=False, header=False, columns=[11, 6, 7, 8])
-        print coord_fname
+        # change the column index here by ys_song
+        pf.to_csv(coord_fname, sep='\t', index=False, header=False, columns=[10, 5, 6, 7])
         #整合模板文件和坐标文件,生成完整的gjf文件
         complete_gjf = "cat {0} {1} > {2}".format('mod.gjf', coord_fname, gjf_fname)
         os.system(complete_gjf)
         #最终修改文件，关于chk部分
         replace_chk = "sed -i 's/mod/{0}/g' {1}".format(chk_fname, gjf_fname)
+        # add it to os.system by ys_song
+        os.system(replace_chk)
         #gjf 文件尾部增加一行
         add_last_line = "echo ' ' >> {}".format(gjf_fname)
         os.system(add_last_line)
@@ -41,4 +43,3 @@ class PDB_T_GJF:
         rm_swap_f = "rm {}".format(filename)
         os.system(rm_swap_f)
         return 0
-        
